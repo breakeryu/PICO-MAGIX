@@ -14,9 +14,9 @@ PICO开源项目
 
 https://community.platformio.org/t/official-platformio-arduino-ide-support-for-the-raspberry-pi-pico-is-now-available/20792/9
 
+## 3.项目开源地址
 
-
-
+https://github.com/breakeryu/PICO-MAGIX
 
 # 二、系统设计
 
@@ -71,6 +71,16 @@ temt6000环境光模块
 
 
 ## 3.语音识别系统
+
+使用启英泰伦的开源硬件。参考一个开源的灯项目，来集成到我的板卡上面。
+
+# 三、硬件设计
+
+硬件设计开源：在[开源仓库](https://github.com/breakeryu/PICO-MAGIX)中的[1.hardware](https://github.com/breakeryu/PICO-MAGIX/tree/master/1.hardware)部分。
+
+硬件设计使用工具是AD19。原理图和PCB会生成PDF版本。
+
+# 四、软件设计
 
 
 
