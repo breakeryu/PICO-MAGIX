@@ -173,6 +173,10 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=SBGUJFJM
 
+[GeneratedDocument1]
+DocumentPath=Project Outputs for PICOºËÐÄ°å\Design Rule Check - PICOºËÐÄ.html
+DItemRevisionGUID=
+
 [Configuration1]
 Name=Sources
 ParameterCount=0
