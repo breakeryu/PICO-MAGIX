@@ -1,9 +1,10 @@
 #include "lcd.h"
 #include "led.h"
-
+#include "sensor.h"
 
 void setup() {
   lcdInit();
+  AhtSensorInit();
   // put your setup code here, to run once:
 }
 
