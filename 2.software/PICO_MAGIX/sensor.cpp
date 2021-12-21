@@ -1,17 +1,23 @@
 #include "sensor.h"
 
-/*******************************************
- * AHT温湿度传感器部分
- *******************************************/
 
 AHTxx aht20(AHTXX_ADDRESS_X38, AHT2x_SENSOR); //命名使用的AHT类
 
+MQ135 mq135_sensor = MQ135(PIN_GAS_SENSOR);
 
+
+/*******************************************
+ * AHT温湿度传感器部分
+ *******************************************/
+float temperature = 0;
+float humidity  = 0;
 /*
  *函数功能：初始化AHT传感器 
  * 
  */
 void AhtSensorInit(void){
+  temperature = 0;
+  humidity = 0;
   while (aht20.begin() != true)
   {
 //    Serial.println(F("AHT2x not connected or fail to load calibration coefficient")); //(F()) save string to flash & keeps dynamic memory free
@@ -26,14 +32,14 @@ void AhtSensorInit(void){
  * 
  */
 void AhtTestUnit(void){
-  float ahtValue; 
-  ahtValue = aht20.readTemperature(); //read 6-bytes via I2C, takes 80 milliseconds
+  
+  temperature = aht20.readTemperature(); //read 6-bytes via I2C, takes 80 milliseconds
 
   Serial.print(F("Temperature: "));
   
   if (ahtValue != AHTXX_ERROR) //AHTXX_ERROR = 255, library returns 255 if error occurs
   {
-    Serial.print(ahtValue);
+    Serial.print(temperature);
     Serial.println(F(" +-0.3C"));
   }
   else
@@ -41,13 +47,13 @@ void AhtTestUnit(void){
     printStatus(); //print temperature command status
   }
 
-  ahtValue = aht20.readHumidity(AHTXX_USE_READ_DATA); //use 6-bytes from temperature reading, takes zero milliseconds!!!
+  humidity = aht20.readHumidity(AHTXX_USE_READ_DATA); //use 6-bytes from temperature reading, takes zero milliseconds!!!
 
   Serial.print(F("Humidity...: "));
   
   if (ahtValue != AHTXX_ERROR) //AHTXX_ERROR = 255, library returns 255 if error occurs
   {
-    Serial.print(ahtValue);
+    Serial.print(humidity);
     Serial.println(F(" +-2%"));
   }
   else
@@ -93,10 +99,12 @@ void printStatus()
   }
 }
 
+/*******************************************
+ * TEMT6000光强度传感器部分
+ *******************************************/
 /*
  * 全局变量
  */
-
 ANALOG_SENSOR_TYPE _sensorType;
 
 /*
@@ -122,7 +130,9 @@ void read_LightSensor(void){
      */
 }
 
-
+/*******************************************
+ * Vsys电压模拟输入功能部分
+ *******************************************/
 
 /*
  *函数功能：初始化Vsys电压模拟输入功能
@@ -148,12 +158,50 @@ void read_sysVoltage(void){
 }
 
 
+/*******************************************
+ * mq135气体浓度传感器部分
+ *******************************************/
+ 
+float co2_concentration = 0;
+
 /*
  *函数功能：初始化GAS传感器
  * 
  */
+void gasTestUnit(void){
+  
+  float rzero = mq135_sensor.getRZero();
+  float correctedRZero = mq135_sensor.getCorrectedRZero(temperature, humidity);
+  float resistance = mq135_sensor.getResistance();
+  float ppm = mq135_sensor.getPPM();
+  float correctedPPM = mq135_sensor.getCorrectedPPM(temperature, humidity);
+
+//  Serial.print("MQ135 RZero: ");
+//  Serial.print(rzero);
+//  Serial.print("\t Corrected RZero: ");
+//  Serial.print(correctedRZero);
+//  Serial.print("\t Resistance: ");
+//  Serial.print(resistance);
+//  Serial.print("\t PPM: ");
+//  Serial.print(ppm);
+//  Serial.print("\t Corrected PPM: ");
+//  Serial.print(correctedPPM);
+//  Serial.print("ppm @ temp/hum: ");
+//  Serial.print(temperature);
+//  Serial.print("/");
+//  Serial.print(humidity);
+//  Serial.println("%");
+  
+}
 
 
+void read_co2_concentration(void){
+    _sensorType = T_GAS;
+    co2_concentration = filter(_sensorType);
+    /*
+     * do display or serial println
+     */
+}
  
 
 int filter(ANALOG_SENSOR_TYPE mysensor){
@@ -166,6 +214,11 @@ int filter(ANALOG_SENSOR_TYPE mysensor){
     
     case T_GAS:
       _pin = PIN_GAS_SENSOR;
+      /*
+       * do gas filter
+       */
+      int value = analogRead(_pin);
+      return value;
     break;
     
     case T_VSYS:
@@ -178,4 +231,17 @@ int filter(ANALOG_SENSOR_TYPE mysensor){
   int value = analogRead(_pin);
   
   return value;
+}
+
+/*******************************************
+ * VL6180x距离传感器部分
+ *******************************************/
+VL6180X distance_sensor;
+
+void vl6180x_Init(void){
+  Wire1.setSDA();
+  Wire1.setSCL();
+  Wire1.begin();
+  distance_sensor.setBus(&Wire1);
+  
 }

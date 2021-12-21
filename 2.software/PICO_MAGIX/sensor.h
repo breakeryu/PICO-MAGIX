@@ -5,7 +5,8 @@
 #include <AHTxx.h>
 #include <RP2040_init.h>
 #include <Wire.h>
-
+#include "MQ135.h"
+#include <VL6180X.h>
 
 #define PIN_LIGHT_SENSOR  A0
 #define PIN_GAS_SENSOR    A1
