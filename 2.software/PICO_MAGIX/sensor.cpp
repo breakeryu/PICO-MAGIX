@@ -150,7 +150,7 @@ void read_sysVoltage(void){
     _sensorType = T_VSYS;
     Voltage_SourceValue = filter(_sensorType);
     float volts = Voltage_SourceValue * 3.3 / 4095.0;
-    sysVoltage = volts * 3.0；
+    sysVoltage = volts * 3.0;
 
     /*
      * do display or serial println
@@ -214,17 +214,13 @@ int filter(ANALOG_SENSOR_TYPE mysensor){
     
     case T_GAS:
       _pin = PIN_GAS_SENSOR;
-      /*
-       * do gas filter
-       */
-      int value = analogRead(_pin);
-      return value;
     break;
     
     case T_VSYS:
       _pin = PIN_VSYS;
     break;
   }
+
   /*
    * some code to do filter
    */

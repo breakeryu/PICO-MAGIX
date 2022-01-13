@@ -12,7 +12,7 @@
   Last review/edit by Bodmer: 21/04/21
  ****************************************************/
 
-// Stop fonts etc being loaded multiple times
+// Stop drawStrings etc being loaded multiple times
 #ifndef _TFT_eSPIH_
 #define _TFT_eSPIH_
 
