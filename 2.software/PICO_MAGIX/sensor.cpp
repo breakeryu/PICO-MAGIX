@@ -123,7 +123,7 @@ void read_LightSensor(void){
     _sensorType = T_LIGHT;
     lightSourceValue = filter(_sensorType);
     float volts = lightSourceValue * 3.3 / 4095.0;
-    lightIntensity = volts * 200.0；
+    lightIntensity = volts * 200.0;
 
     /*
      * do display or serial println
