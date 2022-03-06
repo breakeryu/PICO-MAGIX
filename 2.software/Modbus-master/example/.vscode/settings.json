@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "usart1process.h": "c"
+        "*.m": "matlab",
+        "usart1process.h": "c",
+        "mbconfig.h": "c"
     }
 }
