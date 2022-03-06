@@ -57,7 +57,7 @@ uint16_t ParsingMasterAccessCommand(uint8_t *receivedMessage, uint8_t *respondBy
   {
     return 0;
   }
-  
+ 
   /*信息校验，如不正确则为错误信息不用处理*/
   uint16_t dataLength = 8;
   if ((fc == WriteMultipleCoil) || (fc == WriteMultipleRegister))
