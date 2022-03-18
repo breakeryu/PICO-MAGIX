@@ -5,6 +5,11 @@
 #include <TFT_eSPI.h>
 #include <Arduino.h>
 
+
+
+
 void lcdInit(void);
+
+extern TFT_eSPI tft;
 
 #endif
